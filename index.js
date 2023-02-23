@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("./db/config");
 const User = require("./db/user");
+const Product = require("./db/product");
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -14,6 +15,8 @@ app.post("/register", async (req, resp) => {
   delete result.password;
   resp.send(result);
 });
+
+// login Api
 app.post("/login", async (req, resp) => {
   console.warn(req.body);
   if (req.body.password && req.body.email) {
@@ -28,4 +31,17 @@ app.post("/login", async (req, resp) => {
   }
 });
 
+app.post("/add-product", async (req, resp) => {
+  let product = new Product(req.body);
+  let result = await product.save();
+  resp.send(result);
+});
+app.get("/products", async (req, resp) => {
+  let result = await Product.find();
+  if (result.length > 0) {
+    resp.send(result);
+  } else {
+    resp.send({ result: "No Product found" });
+  }
+});
 app.listen(5000);
