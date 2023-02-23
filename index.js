@@ -57,4 +57,15 @@ app.get("/product/:id", async (req, resp) => {
     resp.send({ result: "No REcord Found" });
   }
 });
+app.put("/product/:id", async (req, resp) => {
+  const id = req.params.id.trim();
+
+  let result = await Product.updateOne(
+    { _id: req.params.id },
+    {
+      $set: req.body,
+    }
+  );
+  resp.send(result);
+});
 app.listen(5000);
