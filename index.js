@@ -49,7 +49,8 @@ app.delete("/product/:id", async (req, resp) => {
   resp.send(result);
 });
 app.get("/product/:id", async (req, resp) => {
-  let result = await Product.findOne({ _id: req.params.id });
+  const id = req.params.id.trim();
+  let result = await Product.findOne({ _id: id });
   if (result) {
     resp.send(result);
   } else {
