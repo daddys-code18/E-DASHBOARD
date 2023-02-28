@@ -94,6 +94,9 @@ app.get("/search/:key", async (req, resp) => {
       {
         category: { $regex: req.params.key },
       },
+      {
+        company: { $regex: req.params.key },
+      },
     ],
   });
   resp.send(result);
